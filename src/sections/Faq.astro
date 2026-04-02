@@ -1,0 +1,97 @@
+---
+
+
+interface Props {
+  region?: string;
+}
+const { region } = Astro.props;
+
+// Array de preguntas estratégicas para SEO
+const faqs = [
+    {
+        pregunta: "¿Cuánto demora en llegar el cerrajero a domicilio?",
+        respuesta: `Entendemos que una urgencia no puede esperar. Si te quedaste afuera de tu casa o auto, nuestro tiempo de llegada promedio es de 15 a 30 minutos en toda la zona de ${region || 'cobertura'}. Tenemos móviles distribuidos estratégicamente para garantizar un <strong>servicio de cerrajería 24 horas</strong> rápido y efectivo.`
+    },
+    {
+        pregunta: "¿Pueden abrir mi puerta blindada sin romper la cerradura?",
+        respuesta: "Sí, absolutamente. Somos especialistas en <strong>aperturas no destructivas</strong>. Utilizamos herramientas de precisión y ganzúas de última generación para abrir puertas comunes, blindadas y rejas sin dañar tu cerradura original ni la madera de tu puerta."
+    },
+    {
+        pregunta: "¿Qué marcas de cerraduras instalan y reparan?",
+        respuesta: "Trabajamos con repuestos originales de todas las marcas líderes del mercado argentino: <strong>Trabex, Acytra, Kallay, Privé, Andif, Giaco</strong> y sistemas multipunto tipo Pentágono. Si necesitas un cambio de combinación o instalar un cerrojo de seguridad extra, te asesoramos con la mejor opción."
+    },
+    {
+        pregunta: "¿Cuánto cuesta un cerrajero de urgencia? ¿El presupuesto es gratis?",
+        respuesta: "El valor depende del tipo de cerradura y el horario, pero nos destacamos por tener <strong>precios justos y transparentes</strong>. Siempre te informamos el costo aproximado por WhatsApp o teléfono antes de enviar el móvil a tu domicilio, para que no te lleves sorpresas."
+    },
+    {
+        pregunta: "¿Cuáles son las formas de pago y dan garantía?",
+        respuesta: "Aceptamos efectivo, transferencias, MercadoPago y tarjetas. Todos nuestros trabajos de instalación, reparación y <strong>cambios de tambor cuentan con garantía escrita</strong>. Al finalizar, te entregamos el comprobante correspondiente para tu total tranquilidad."
+    },
+    {
+        pregunta: "Perdí mis llaves, ¿tengo que cambiar la cerradura completa?",
+        respuesta: "No siempre es necesario. En la mayoría de los casos, nuestros técnicos pueden realizar un <strong>cambio de combinación o reemplazo del cilindro (tambor)</strong>. Esta solución es mucho más económica y rápida, garantizando que las llaves perdidas ya no sirvan para abrir tu puerta."
+    },
+    {
+        pregunta: "¿Qué hago si dejé las llaves adentro del auto o en el baúl?",
+        respuesta: "No intentes forzar la puerta ni romper el vidrio. Nuestro servicio de <strong>cerrajería automotor</strong> cuenta con ganzúas especiales y herramientas de descompresión para abrir tu vehículo (incluso baúles) en minutos, sin rayar la pintura ni doblar el marco de la puerta."
+    }
+];
+// 1. Limpiamos las etiquetas HTML (como <strong>) para que Google lea texto puro en el JSON
+const stripHtml = (html: string) => html.replace(/<[^>]*>?/gm, '');
+
+// 2. Armamos el objeto JSON-LD oficial de Google
+const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map((faq) => ({
+        "@type": "Question",
+        "name": faq.pregunta,
+        "acceptedAnswer": {
+        "@type": "Answer",
+        "text": stripHtml(faq.respuesta)
+        }
+    }))
+};
+---
+<script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+<section class="py-20 md:py-32 bg-fondo-nav border-t border-borde">
+    <div class="max-w-4xl mx-auto px-4">
+        
+        <div class="text-center mb-16 animate-fade-in-up">
+        <h2 class="text-3xl md:text-5xl font-bold text-white mb-4">
+            Preguntas <span class="text-blue-500">Frecuentes</span>
+        </h2>
+        <p class="text-slate-400 text-lg">
+            Resolvemos tus dudas antes de que nos llames. Transparencia y profesionalismo garantizado.
+        </p>
+        </div>
+
+        <div class="bg-fondo-card rounded-3xl border border-borde p-6 md:p-10 shadow-lg shadow-marca/5">
+        
+        {faqs.map((faq, index) => (
+            /* Etiqueta HTML nativa <details> (Magia SEO sin JS) */
+            /* Le sacamos la flechita fea por defecto con [&_summary::-webkit-details-marker]:hidden */
+            <details class={`group py-5 ${index !== faqs.length - 1 ? 'border-b border-borde' : ''} [&_summary::-webkit-details-marker]:hidden`}>
+            
+            <summary class="flex justify-between items-center font-bold cursor-pointer text-white md:text-lg hover:text-marca transition-colors outline-none pr-2">
+                <span>{faq.pregunta}</span>
+                
+                <span class="transition-transform duration-300 group-open:rotate-180 text-marca ml-4 flex-shrink-0">
+                <svg fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24">
+                    <path d="M6 9l6 6 6-6"></path>
+                </svg>
+                </span>
+            </summary>
+            
+            <div class="mt-4 text-slate-400 leading-relaxed text-sm md:text-base pr-4 md:pr-12">
+                <p set:html={faq.respuesta}></p>
+            </div>
+            
+            </details>
+        ))}
+
+        </div>
+        
+    </div>
+</section>

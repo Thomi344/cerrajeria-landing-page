@@ -1,0 +1,76 @@
+---
+import Button from '../components/button.astro';
+
+interface Props {
+    nombreZona?: string;
+}
+
+const { nombreZona } = Astro.props;
+const telefono = "5491150974821";
+
+---
+
+<header id="navbar" class="sticky top-0 z-50 transition-all duration-300 bg-fondo-nav border-b border-borde py-4 rounded-none">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
+        
+        <a href="/" class="flex items-center gap-3">
+        <div class="bg-blue-500/20 p-2.5 rounded-xl text-blue-400">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+            </svg>
+        </div>
+        
+        <div class="flex flex-col">
+            <span class="font-black text-xl md:text-2xl text-white leading-none tracking-tight">
+            Cerrajería <span class="text-blue-500">Wally</span>
+            </span>
+            <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider mt-1">
+            {nombreZona ? `Servicio en ${nombreZona}` : 'Servicio Urgente 24hs'}
+            </span>
+        </div>
+        </a>
+
+        <div class="hidden sm:block">
+        <Button href={`https://wa.me/${telefono}`} texto="Contactar ya mismo" variante="primario" >
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+            </svg>
+        </button>
+        
+    </div>
+
+        <a href={`https://wa.me/${telefono}`} class="sm:hidden bg-blue-600 active:bg-blue-700 text-white px-5 py-2.5 rounded-full font-bold flex items-center gap-2 shadow-lg shadow-blue-600/30 transition-all">
+        <svg class="w-5 h-5 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+        <span class="text-sm">Contactar</span>
+        </a>
+        
+    </div>
+</header>
+<script>
+    // Buscamos el menú en la página
+    const navbar = document.getElementById('navbar');
+    // variable para recordar en qué estado está el menú
+    let esIsla = false;
+    
+    if (navbar) {
+        // Escuchamos cada vez que el usuario hace scroll
+        window.addEventListener('scroll', () => {
+        
+        // Si baja más de 20 píxeles, activamos el MODO ISLA
+        if (window.scrollY > 20 && !esIsla ) {
+            // Le sacamos el diseño de bloque pegado
+            navbar.classList.remove('top-0', 'border-b', 'rounded-none', 'py-4', 'bg-fondo-nav');
+            // Le inyectamos el diseño de isla (márgenes, bordes curvos, desenfoque)
+            navbar.classList.add('top-4', 'mx-4', 'md:max-w-6xl', 'md:mx-auto', 'rounded-2xl', 'border', 'py-2', 'bg-fondo-nav/90', 'backdrop-blur-md', 'shadow-lg');
+            esIsla = true; // Guardamos que ya se transformó
+        
+        // Si vuelve arriba de todo, restauramos el MODO NORMAL
+        } else if (window.scrollY <= 20 && esIsla) {
+                navbar.classList.add('top-0', 'border-b', 'rounded-none', 'py-4', 'bg-fondo-nav');
+                navbar.classList.remove('top-4', 'mx-4', 'md:max-w-6xl', 'md:mx-auto', 'rounded-2xl', 'border', 'py-2', 'bg-fondo-nav/90', 'backdrop-blur-md', 'shadow-lg');
+                esIsla = false; // Guardamos que volvió a la normalidad
+            }
+            
+        });
+    }
+</script>

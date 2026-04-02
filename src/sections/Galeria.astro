@@ -1,0 +1,139 @@
+---
+// src/sections/galeria.astro
+import { Image } from "astro:assets";
+
+// 1. Importamos las fotos locales pasadas por Squoosh
+import trabajo1 from "../assets/images/Galeria1.webp"; // Cambiá los nombres por los tuyos
+import trabajo2 from "../assets/images/Galeria2.webp";
+import trabajo3 from "../assets/images/Galeria3.webp";
+
+interface Props {
+    region?: string;
+}
+const { region } = Astro.props;
+
+// URL directa del video de TikTok subida a Cloudinary (este lo dejamos igual porque es video)
+const urlVideo = "https://res.cloudinary.com/dcjy0mij8/video/upload/vc_auto,q_auto/v1775086772/video-1-tik-tok_txREvfCQ_ejphn6.mp4";
+
+// 2. Usamos las variables importadas en lugar de los links de Cloudinary
+const trabajos = [
+    {
+        img: trabajo1,
+        alt: `Apertura de puerta blindada y cambio de cerradura en ${region || 'Claypole'}`,
+        titulo: "Aperturas Sin Daños"
+    },
+    {
+        img: trabajo2,
+        alt: `Cerrajería automotor y copias codificadas en ${region || 'Zona Sur'}`,
+        titulo: "Cerrajería Automotor"
+    },
+    {
+        img: trabajo3,
+        alt: `Reparación de tambor de arranque y destrabe de volante`,
+        titulo: "Cerraduras"
+    }
+];
+---
+
+<section class="py-20 md:py-32 bg-fondo-base border-t border-borde overflow-hidden">
+    <div class="max-w-6xl mx-auto px-4">
+        
+        <div class="mb-12">
+            <h2 class="text-3xl md:text-5xl font-bold text-white mb-4">
+                Trabajos <span class="text-blue-500">Realizados</span>
+            </h2>
+            <p class="text-slate-400 max-w-2xl text-lg">
+                No te quedes con la duda. Así es como resolvemos urgencias reales de cerrajería {region ? `en ${region}` : 'todos los días'}.
+            </p>
+        </div>
+
+        <div id="carrusel-trabajos" class="flex gap-4 md:gap-6 overflow-x-auto snap-x snap-mandatory pb-8 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden cursor-grab active:cursor-grabbing">
+        
+            <div class="snap-center shrink-0 w-[75vw] sm:w-[300px] md:w-[320px] relative group rounded-2xl overflow-hidden border border-borde bg-fondo-base shadow-lg shadow-marca/5">
+                <video 
+                    controls 
+                    preload="none" 
+                    crossorigin="anonymous"
+                    playsinline
+                    poster="/logo-icon.webp"
+                    class="w-full aspect-[3/4] object-cover group-hover:scale-105 transition-transform duration-500"
+                >
+                    <source src={urlVideo} type="video/mp4" />
+                    Tu navegador no soporta videos.
+                </video>
+                <div class="absolute inset-0 bg-gradient-to-t from-fondo-nav via-fondo-nav/30 to-transparent opacity-90 pointer-events-none"></div>
+                <div class="absolute bottom-0 left-0 p-5 md:p-6 pointer-events-none">
+                    <h3 class="text-lg md:text-xl font-bold text-white mb-1 leading-tight">Apertura en Acción</h3>
+                    <p class="text-marca-suave text-xs font-semibold tracking-wide uppercase">Video del Laburo</p>
+                </div>
+            </div>
+
+            {trabajos.map((trabajo) => (
+                <div class="snap-center shrink-0 w-[75vw] sm:w-[300px] md:w-[320px] relative group rounded-2xl overflow-hidden border border-borde bg-fondo-base shadow-lg shadow-marca/5">
+                    
+                    <Image 
+                        src={trabajo.img} 
+                        alt={trabajo.alt} 
+                        widths={[400, 800]}
+                        sizes="(max-width: 640px) 50vw, 320px"
+                        loading="lazy"
+                        decoding="async"
+                        class="w-full aspect-[3/4] object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                    
+                    <div class="absolute inset-0 bg-gradient-to-t from-fondo-nav via-fondo-nav/30 to-transparent opacity-90"></div>
+                    
+                    <div class="absolute bottom-0 left-0 p-5 md:p-6">
+                        <h3 class="text-lg md:text-xl font-bold text-white mb-1 leading-tight">{trabajo.titulo}</h3>
+                        <p class="text-marca-suave text-xs font-semibold tracking-wide uppercase">Trabajo Completado</p>
+                    </div>
+                </div>
+            ))}
+
+        </div>
+
+        <div class="mt-8 border-l-4 border-slate-700 pl-6 text-slate-400 text-sm md:text-base max-w-4xl">
+            <p>
+                Documentamos nuestros trabajos para garantizar transparencia. Realizamos <strong class="text-slate-200">cambios de tambor, copias codificadas, extracciones de llaves partidas e instalaciones de cerrojos multipunto</strong>. Todas las imágenes corresponden a servicios de cerrajería brindados por técnicos propios, asegurando que tu vehículo o propiedad quede en perfectas condiciones y sin marcas de forzamiento.
+            </p>
+        </div>
+
+    </div>
+</section>
+
+<script>
+    const slider = document.getElementById('carrusel-trabajos');
+    if (slider) {
+        let isDown = false;
+        let startX: number;
+        let scrollLeft: number;
+
+        slider.addEventListener('mousedown', (e) => {
+            isDown = true;
+            slider.style.cursor = 'grabbing';
+            slider.style.scrollSnapType = 'none'; 
+            startX = e.pageX - slider.offsetLeft;
+            scrollLeft = slider.scrollLeft;
+        });
+
+        slider.addEventListener('mouseleave', () => {
+            isDown = false;
+            slider.style.cursor = 'grab';
+            slider.style.scrollSnapType = 'x mandatory'; 
+        });
+
+        slider.addEventListener('mouseup', () => {
+            isDown = false;
+            slider.style.cursor = 'grab';
+            slider.style.scrollSnapType = 'x mandatory'; 
+        });
+
+        slider.addEventListener('mousemove', (e) => {
+            if (!isDown) return; 
+            e.preventDefault();
+            const x = e.pageX - slider.offsetLeft;
+            const walk = (x - startX) * 2; 
+            slider.scrollLeft = scrollLeft - walk;
+        });
+    }
+</script>

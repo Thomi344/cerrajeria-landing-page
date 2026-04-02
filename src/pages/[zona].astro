@@ -1,0 +1,46 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../sections/Header.astro';
+import Hero from '../sections/Hero.astro';
+import Footer from '../sections/Footer.astro';
+import {zonas} from '../data/zonas'
+import Servicios from '../sections/Servicios.astro';
+import Beneficios from '../sections/Beneficios.astro';
+import Galeria from '../sections/Galeria.astro';
+import Opiniones from '../sections/Opiniones.astro';
+import Faq from '../sections/Faq.astro';
+
+
+export function getStaticPaths() {
+    // 2. Mapeamos cada zona para crear su página automáticamente
+    return zonas.map((zonaData) => {
+        return {
+        params: { zona: zonaData.slug },
+        props: { infoZona: zonaData }, // Pasamos TODO el objeto de datos
+        };
+    });
+}
+// 3. Recibimos la información de la zona en la que estamos parados
+const { infoZona } = Astro.props;
+// Si por alguna razón infoZona es undefined, evitamos que la página explote
+if (!infoZona) {
+    return Astro.redirect('/404');
+}
+---
+<Layout title={`Cerrajero de Urgencia en ${infoZona.nombre} | 24 Horas | Wally`} description={`¿Necesitás un cerrajero rápido en ${infoZona.nombre}? Apertura de autos, casas y cajas fuertes las 24hs. Servicio garantizado en ${infoZona.region}.`}>
+    <Header nombreZona={infoZona.nombre} />
+    
+    <Hero 
+        nombreZona={infoZona.nombre} 
+        region={infoZona.region} 
+        barrios={infoZona.barrios} 
+    />
+
+    <Servicios region={infoZona.region} />
+    <Beneficios region={infoZona.region} /> 
+    <Galeria region={infoZona.region} />
+    <Opiniones region={infoZona.region} />
+    <Faq region={infoZona.region} />
+    <Footer/>
+    
+</Layout>

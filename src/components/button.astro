@@ -1,0 +1,31 @@
+---
+// src/components/Button.astro
+interface Props {
+  href: string;
+  texto: string;
+  variante?: 'primario' | 'secundario' | 'whatsapp'; 
+}
+
+const { href, texto, variante = 'primario' } = Astro.props;
+
+const estilosBase = "px-8 py-4 rounded-full font-bold text-lg transition-all flex items-center justify-center gap-2 shadow-lg";
+
+//  Usa tu color global: bg-marca y hover:bg-marca-hover
+const estilosPrimario = "bg-marca hover:bg-marca-hover text-white hover:shadow-marca/30";
+
+// color global para los textos y bordes
+const estilosSecundario = "bg-slate-800 hover:bg-slate-700 text-marca-suave border border-marca hover:shadow-marca/20";
+
+// variante específica para WhatsApp
+const estilosWhatsapp = "bg-wpp hover:bg-wpp-hover text-white hover:shadow-wpp/30";
+
+let estilosFinales = estilosBase;
+if (variante === 'primario') estilosFinales += ` ${estilosPrimario}`;
+if (variante === 'secundario') estilosFinales += ` ${estilosSecundario}`;
+if (variante === 'whatsapp') estilosFinales += ` ${estilosWhatsapp}`;
+---
+
+<a href={href} class={estilosFinales}>
+    <slot />
+    {texto}
+</a>
