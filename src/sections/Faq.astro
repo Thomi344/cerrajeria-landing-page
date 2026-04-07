@@ -1,12 +1,12 @@
 ---
-
+// ---- Pagina de diseño de la seccion Preguntas Frecuentes ----
 
 interface Props {
   region?: string;
 }
 const { region } = Astro.props;
 
-// Array de preguntas estratégicas para SEO
+// --- Array de preguntas estratégicas para SEO ---
 const faqs = [
     {
         pregunta: "¿Cuánto demora en llegar el cerrajero a domicilio?",
@@ -59,37 +59,37 @@ const faqSchema = {
     <div class="max-w-4xl mx-auto px-4">
         
         <div class="text-center mb-16 animate-fade-in-up">
-        <h2 class="text-3xl md:text-5xl font-bold text-white mb-4">
-            Preguntas <span class="text-blue-500">Frecuentes</span>
-        </h2>
-        <p class="text-slate-400 text-lg">
-            Resolvemos tus dudas antes de que nos llames. Transparencia y profesionalismo garantizado.
-        </p>
+            <h2 class="text-3xl md:text-5xl font-bold text-white mb-4">
+                Preguntas <span class="text-blue-500">Frecuentes</span>
+            </h2>
+            <p class="text-slate-400 text-lg">
+                Resolvemos tus dudas antes de que nos llames. Transparencia y profesionalismo garantizado.
+            </p>
         </div>
 
         <div class="bg-fondo-card rounded-3xl border border-borde p-6 md:p-10 shadow-lg shadow-marca/5">
         
-        {faqs.map((faq, index) => (
-            /* Etiqueta HTML nativa <details> (Magia SEO sin JS) */
-            /* Le sacamos la flechita fea por defecto con [&_summary::-webkit-details-marker]:hidden */
-            <details class={`group py-5 ${index !== faqs.length - 1 ? 'border-b border-borde' : ''} [&_summary::-webkit-details-marker]:hidden`}>
-            
-            <summary class="flex justify-between items-center font-bold cursor-pointer text-white md:text-lg hover:text-marca transition-colors outline-none pr-2">
-                <span>{faq.pregunta}</span>
+            {faqs.map((faq, index) => (
+                /* --- Etiqueta HTML nativa <details> (SEO sin JS) ---*/
+                /* --- Le sacamos la flechita  por defecto con [&_summary::-webkit-details-marker]:hidden ---*/
+                <details class={`group py-5 ${index !== faqs.length - 1 ? 'border-b border-borde' : ''} [&_summary::-webkit-details-marker]:hidden`}>
                 
-                <span class="transition-transform duration-300 group-open:rotate-180 text-marca ml-4 flex-shrink-0">
-                <svg fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24">
-                    <path d="M6 9l6 6 6-6"></path>
-                </svg>
-                </span>
-            </summary>
-            
-            <div class="mt-4 text-slate-400 leading-relaxed text-sm md:text-base pr-4 md:pr-12">
-                <p set:html={faq.respuesta}></p>
-            </div>
-            
-            </details>
-        ))}
+                    <summary class="flex justify-between items-center font-bold cursor-pointer text-white md:text-lg hover:text-marca transition-colors outline-none pr-2">
+                        <span>{faq.pregunta}</span>
+                        
+                        <span class="transition-transform duration-300 group-open:rotate-180 text-marca ml-4 flex-shrink-0">
+                            <svg fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24">
+                                <path d="M6 9l6 6 6-6"></path>
+                            </svg>
+                        </span>
+                    </summary>
+                    
+                    <div class="mt-4 text-slate-400 leading-relaxed text-sm md:text-base pr-4 md:pr-12">
+                        <p set:html={faq.respuesta}></p>
+                    </div>
+                    
+                </details>
+            ))}
 
         </div>
         

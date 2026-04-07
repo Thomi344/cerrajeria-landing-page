@@ -1,5 +1,5 @@
 ---
-// src/components/Button.astro
+// ---- Diseño de botones como componente ----
 interface Props {
   href: string;
   texto: string;
@@ -10,7 +10,7 @@ const { href, texto, variante = 'primario' } = Astro.props;
 
 const estilosBase = "px-8 py-4 rounded-full font-bold text-lg transition-all flex items-center justify-center gap-2 shadow-lg";
 
-//  Usa tu color global: bg-marca y hover:bg-marca-hover
+//  Usa color global: bg-marca y hover:bg-marca-hover
 const estilosPrimario = "bg-marca hover:bg-marca-hover text-white hover:shadow-marca/30";
 
 // color global para los textos y bordes

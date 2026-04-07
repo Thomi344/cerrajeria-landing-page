@@ -12,7 +12,7 @@ import Faq from '../sections/Faq.astro';
 
 
 export function getStaticPaths() {
-    // 2. Mapeamos cada zona para crear su página automáticamente
+    // --- Mapeamos cada zona para crear su página automáticamente ---
     return zonas.map((zonaData) => {
         return {
         params: { zona: zonaData.slug },
@@ -20,21 +20,16 @@ export function getStaticPaths() {
         };
     });
 }
-// 3. Recibimos la información de la zona en la que estamos parados
+// --- Recibimos la información de la zona en la que estamos parados ---
 const { infoZona } = Astro.props;
-// Si por alguna razón infoZona es undefined, evitamos que la página explote
+// --- Si por alguna razón infoZona es undefined, evitamos que la página explote ---
 if (!infoZona) {
     return Astro.redirect('/404');
 }
 ---
 <Layout title={`Cerrajero de Urgencia en ${infoZona.nombre} | 24 Horas | Wally`} description={`¿Necesitás un cerrajero rápido en ${infoZona.nombre}? Apertura de autos, casas y cajas fuertes las 24hs. Servicio garantizado en ${infoZona.region}.`}>
     <Header nombreZona={infoZona.nombre} />
-    
-    <Hero 
-        nombreZona={infoZona.nombre} 
-        region={infoZona.region} 
-        barrios={infoZona.barrios} 
-    />
+    <Hero nombreZona={infoZona.nombre} region={infoZona.region} barrios={infoZona.barrios} />
 
     <Servicios region={infoZona.region} />
     <Beneficios region={infoZona.region} /> 

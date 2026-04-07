@@ -1,11 +1,10 @@
 ---
 import Whatsapp from '../components/whatsapp.astro';
-// 🚀 IMPORTANTE: Importamos la primera imagen del Hero para que el preload use la ruta real de Astro
-import AutoHero from "../assets/images/AutoHero.webp";
+
 
 const { 
-  title = "Cerrajería Wally 24hs | Urgencias en GBA y CABA | ¡Llamá ahora!",
-  description = "Cerrajero a domicilio 24 horas. Apertura de puertas, autos y cajas fuertes. Rápidos, limpios y con garantía en el día."
+    title = "Cerrajería Wally 24hs | Urgencias en GBA y CABA | ¡Llamá ahora!",
+    description = "Cerrajero a domicilio 24 horas. Apertura de puertas, autos y cajas fuertes. Rápidos, limpios y con garantía en el día."
 } = Astro.props;
 
 const dominioActual = "https://cerrajeriawally.com.ar";
@@ -50,28 +49,45 @@ const businessSchema = {
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-		<script is:inline>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-        })(window,document,'script','dataLayer','GTM-5MVVGKX5');
         
-        // Esperamos a que la página cargue y luego esperamos 3.5 segundos para disparar GTM
-        window.addEventListener('load', () => {
-            setTimeout(loadGTM, 3500);
-        });   
+        <script is:inline>window.dataLayer = window.dataLayer || [];</script>
+
+        <script type="text/plain" id="gtm-script">
+            (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+            })(window,document,'script','dataLayer','GTM-5MVVGKX5');
+        </script>
+
+        <script is:inline>
+            const initGTM = () => {
+                if (window._gtmLoaded) return;
+                window._gtmLoaded = true;
+                if (/bot|googlebot|crawler|spider|robot|crawling|lighthouse/i.test(navigator.userAgent)) return;
+                
+                // Buscamos el script dormido y lo convertimos a Partytown
+                const gtmScript = document.getElementById('gtm-script');
+                if (gtmScript) {
+                    const newScript = document.createElement('script');
+                    newScript.type = 'text/partytown';
+                    newScript.innerHTML = gtmScript.innerHTML;
+                    document.head.appendChild(newScript);
+                    
+                    // Le damos el empujoncito final para que corra
+                    window.dispatchEvent(new CustomEvent('pt:run'));
+                }
+            };
+
+            // Escuchamos movimientos reales (el bot de Google no hace esto)
+            ['mousemove', 'touchstart', 'scroll', 'keydown', 'click'].forEach(evt => {
+                window.addEventListener(evt, initGTM, { once: true });
+            });
         </script>
 
         <link rel="icon" type="image/webp" href="/logo-icon.webp" />
         
-		<link rel="preconnect" href="https://res.cloudinary.com" />
-        <link 
-            rel="preload" 
-            as="image" 
-            href={AutoHero.src} 
-            fetchpriority="high"
-        />        
+		<link rel="preconnect" href="https://res.cloudinary.com" />      
 
         <title>{title}</title>
         <meta name="description" content={description} />
@@ -98,7 +114,7 @@ const businessSchema = {
         <script type="application/ld+json" set:html={JSON.stringify(businessSchema)} />
     </head>
     <body class="bg-fondo-base text-slate-200 selection:bg-blue-500/30">
-		<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5MVVGKX5"
+        <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5MVVGKX5"
         height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <slot /> 
         <Whatsapp />

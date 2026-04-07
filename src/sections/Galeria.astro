@@ -1,9 +1,9 @@
 ---
-// src/sections/galeria.astro
+// ---- Pagina de diseño de la seccion Galeria ----
 import { Image } from "astro:assets";
 
-// 1. Importamos las fotos locales pasadas por Squoosh
-import trabajo1 from "../assets/images/Galeria1.webp"; // Cambiá los nombres por los tuyos
+// --- Importamos las fotos locales pasadas por Squoosh --- 
+import trabajo1 from "../assets/images/Galeria1.webp";
 import trabajo2 from "../assets/images/Galeria2.webp";
 import trabajo3 from "../assets/images/Galeria3.webp";
 
@@ -12,10 +12,10 @@ interface Props {
 }
 const { region } = Astro.props;
 
-// URL directa del video de TikTok subida a Cloudinary (este lo dejamos igual porque es video)
+// --- URL directa del video de TikTok subida a Cloudinary ---
 const urlVideo = "https://res.cloudinary.com/dcjy0mij8/video/upload/vc_auto,q_auto/v1775086772/video-1-tik-tok_txREvfCQ_ejphn6.mp4";
 
-// 2. Usamos las variables importadas en lugar de los links de Cloudinary
+// --- Usamos las variables importadas ---
 const trabajos = [
     {
         img: trabajo1,
@@ -102,6 +102,7 @@ const trabajos = [
 </section>
 
 <script>
+    // ---- Efecto Scroll de la galeria ----
     const slider = document.getElementById('carrusel-trabajos');
     if (slider) {
         let isDown = false;

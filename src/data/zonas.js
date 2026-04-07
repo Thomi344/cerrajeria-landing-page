@@ -1,4 +1,4 @@
-// Informacion de zonas y barrios
+// ---- Informacion de zonas y barrios ----
 
 export const zonas = [
     {
