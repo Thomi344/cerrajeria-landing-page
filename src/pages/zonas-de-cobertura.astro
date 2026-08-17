@@ -1,0 +1,74 @@
+---
+// src/pages/zonas-de-cobertura.astro
+import Layout from '../layouts/Layout.astro';
+import Header from '../sections/Header.astro';
+import Footer from '../sections/Footer.astro'; 
+import { zonas } from '../data/zonas.js';
+
+const limpiarParaUrl = (texto: string) => {
+    return String(texto).toLowerCase()
+        .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/(^-|-$)+/g, '');
+};
+
+const title = "Directorio de Zonas | Cerrajería Wally 24hs";
+const description = "Directorio completo de todas las zonas y barrios donde prestamos servicio de cerrajería de urgencia 24hs en Zona Sur y CABA.";
+---
+
+<Layout title={title} description={description}>
+    <Header />
+    
+    <main class="pt-32 pb-20 bg-fondo-base min-h-screen">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6">
+            
+            <header class="text-center mb-16 animate-fade-in-up">
+                <h1 class="text-4xl sm:text-5xl font-black text-white uppercase tracking-tighter mb-4">
+                    Directorio de <span class="text-blue-500">Cobertura</span>
+                </h1>
+                <p class="text-lg text-slate-400 max-w-2xl mx-auto">
+                    Seleccioná tu zona o barrio para ver los servicios de cerrajería disponibles cerca tuyo con llegada inmediata.
+                </p>
+            </header>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {zonas.map((zona) => (
+                    <div class="bg-fondo-card border border-borde rounded-2xl p-6 shadow-lg shadow-marca/5 hover:border-marca/50 transition-colors duration-300">
+                        
+                        <h2 class="text-xl font-bold text-white uppercase border-b border-borde pb-3 mb-4 flex items-center gap-2">
+                            <svg class="w-5 h-5 text-marca" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                            {/* Link a la zona principal (ej: /cerrajero-zona-lomas-de-zamora/) */}
+                            <a href={`/cerrajero-zona-${limpiarParaUrl(zona.nombre)}/`} class="hover:text-marca transition-colors">
+                                {zona.nombre}
+                            </a>
+                        </h2>
+
+                        <div class="space-y-4">
+                            <div>
+                                <h3 class="text-sm font-bold text-marca mb-3">CERRAJERÍA EN:</h3>
+                                <ul class="space-y-2">
+                                    {zona.barrios.map(barrio => (
+                                        <li>
+                                            {/* Link a cada barrio individual (ej: /cerrajero-zona-banfield/) */}
+                                            <a href={`/cerrajero-zona-${limpiarParaUrl(barrio)}/`} class="text-slate-400 text-sm hover:text-white hover:underline transition-colors flex items-center gap-2 group">
+                                                <span class="w-1.5 h-1.5 rounded-full bg-borde group-hover:bg-marca transition-colors"></span>
+                                                Cerrajero en {barrio}
+                                            </a>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+                ))}
+            </div>
+
+        </div>
+    </main>
+
+    <Footer />
+</Layout>

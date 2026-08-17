@@ -1,0 +1,17 @@
+# Desactivar MultiViews para que no se confunda con los nombres de carpetas
+Options -MultiViews
+
+RewriteEngine On
+RewriteBase /
+
+# 1. Si el usuario entra SIN la barra final (ej: /zona), lo mandamos CON la barra (/zona/)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_URI} !(.*)/$
+RewriteRule ^(.*)$ $1/ [L,R=301]
+
+# 2. Si es una carpeta, que cargue el index.html de adentro automáticamente
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^(.*)$ $1index.html [L]
+
+# 3. Manejo de errores 404 (Opcional, pero recomendado)
+ErrorDocument 404 /404.html

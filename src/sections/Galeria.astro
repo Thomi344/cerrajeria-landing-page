@@ -9,9 +9,9 @@ import trabajo3 from "../assets/images/Galeria3.webp";
 
 interface Props {
     region?: string;
+    nombreZona?: string;
 }
-const { region } = Astro.props;
-
+const { region, nombreZona = "tu zona" } = Astro.props;
 // --- URL directa del video de TikTok subida a Cloudinary ---
 const urlVideo = "https://res.cloudinary.com/dcjy0mij8/video/upload/vc_auto,q_auto/v1775086772/video-1-tik-tok_txREvfCQ_ejphn6.mp4";
 
@@ -19,12 +19,12 @@ const urlVideo = "https://res.cloudinary.com/dcjy0mij8/video/upload/vc_auto,q_au
 const trabajos = [
     {
         img: trabajo1,
-        alt: `Apertura de puerta blindada y cambio de cerradura en ${region || 'Claypole'}`,
+        alt: `Apertura de puerta blindada y cambio de cerradura en ${nombreZona || 'Claypole'}`,
         titulo: "Aperturas Sin Daños"
     },
     {
         img: trabajo2,
-        alt: `Cerrajería automotor y copias codificadas en ${region || 'Zona Sur'}`,
+        alt: `Cerrajería automotor y copias codificadas en ${nombreZona || 'Zona Sur'}`,
         titulo: "Cerrajería Automotor"
     },
     {
@@ -43,7 +43,7 @@ const trabajos = [
                 Trabajos <span class="text-blue-500">Realizados</span>
             </h2>
             <p class="text-slate-400 max-w-2xl text-lg">
-                No te quedes con la duda. Así es como resolvemos urgencias reales de cerrajería {region ? `en ${region}` : 'todos los días'}.
+                No te quedes con la duda. Así es como resolvemos urgencias reales de cerrajería {region ? `en ${nombreZona}` : 'todos los días'}.
             </p>
         </div>
 

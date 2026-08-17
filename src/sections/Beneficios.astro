@@ -2,8 +2,12 @@
 // ---- Pagina de diseño de la seccion Beneficios ----
 interface Props {
     region?: string;
+    nombreZona?: string;
 }
-const { region } = Astro.props;
+const { 
+    region = "", 
+    nombreZona = "tu zona" 
+} = Astro.props;
 ---
 
 <section class="py-20 md:py-32 bg-fondo-nav  border-t border-borde">
@@ -11,10 +15,10 @@ const { region } = Astro.props;
         
         <div class="text-center mb-16 animate-fade-in-up">
             <h2 class="text-3xl md:text-5xl font-bold text-white mb-4">
-                ¿Por qué elegir a <span class="text-blue-500">Cerrajería Wally</span>?
+                ¿Por qué elegir a <span class="text-blue-500">Cerrajería Wally</span> en {nombreZona}?
             </h2>
             <p class="text-slate-400 max-w-2xl mx-auto text-lg">
-                Tu seguridad no puede esperar. Mirá por qué somos los cerrajeros más recomendados {region ? `en ${region}` : 'de la zona'}.
+                Tu seguridad no puede esperar. Mirá por qué somos los cerrajeros más recomendados de {nombreZona} {region ? `y todo ${region}` : ''}.
             </p>
         </div>
 
@@ -25,7 +29,7 @@ const { region } = Astro.props;
                 <svg aria-hidden="true" class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
             </div>
             <h3 class="text-xl font-bold text-white mb-2">Llegamos en Minutos</h3>
-            <p class="text-slate-400 text-sm">Unidades móviles distribuidas estratégicamente para urgencias reales.</p>
+            <p class="text-slate-400 text-sm">Unidades móviles distribuidas estratégicamente en {nombreZona} para urgencias reales.</p>
         </div>
 
         <div class="flex flex-col items-center text-center">
@@ -56,11 +60,11 @@ const { region } = Astro.props;
 
     <div class="max-w-4xl mx-auto border-l-4 border-marca pl-6 md:pl-10">
             <h3 class="text-2xl font-bold text-white mb-4">
-                Cerrajería de urgencia y programada {region ? `en toda la ${region}` : 'cerca tuyo'}
+                Cerrajería de urgencia y programada en {nombreZona} {region ? `y ${region}` : ''}
             </h3>
             <div class="space-y-4 text-slate-400 text-sm md:text-base leading-relaxed">
                 <p>
-                Encontrar un <strong class="text-slate-200 font-semibold">cerrajero de confianza 24 horas</strong> suele ser difícil cuando ocurre un imprevisto. En Cerrajería Wally nos destacamos por ofrecer un servicio integral que combina rapidez, herramientas de última generación y presupuestos accesibles. Ya sea que necesites una <strong class="text-slate-200 font-semibold">apertura de puerta sin romper</strong>, el destrabe de un vehículo, o la instalación de cerraduras de seguridad (multianclaje, digitales, cerrojos), estamos preparados para resolverlo en el acto.
+                Encontrar un <strong class="text-slate-200 font-semibold">cerrajero de confianza 24 horas en {nombreZona}</strong> suele ser difícil cuando ocurre un imprevisto. En Cerrajería Wally nos destacamos por ofrecer un servicio integral que combina rapidez, herramientas de última generación y presupuestos accesibles. Ya sea que necesites una <strong class="text-slate-200 font-semibold">apertura de puerta sin romper</strong>, el destrabe de un vehículo, o la instalación de cerraduras de seguridad (multianclaje, digitales, cerrojos), estamos preparados para resolverlo en el acto.
                 </p>
                 <p>
                 Nuestro compromiso es proteger tu hogar, comercio o auto. Por eso, todos nuestros trabajos cuentan con garantía de satisfacción. No confíes tu seguridad a improvisados; elegí la tranquilidad de trabajar con cerrajeros profesionales y matriculados.

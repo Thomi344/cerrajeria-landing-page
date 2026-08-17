@@ -2,9 +2,9 @@
 // ---- Pagina de diseño de la seccion Opniones ----
 interface Props {
     region?: string;
+    nombreZona?: string;
 }
-const { region } = Astro.props;
-
+const { region, nombreZona = "tu zona" } = Astro.props;
 //--- las reseñas reales de Google Mi Negocio ---
 const resenas = [
     {
@@ -36,7 +36,7 @@ const resenas = [
                 Lo que dicen nuestros <span class="text-blue-500">clientes</span>
             </h2>
             <p class="text-slate-400 max-w-2xl mx-auto text-lg">
-                Más de 500 vecinos {region ? `de ${region}` : 'de la zona'} ya confiaron en nuestro servicio de cerrajería. Su tranquilidad es nuestra mejor garantía.
+                Más de 500 vecinos {nombreZona ? `de ${region}` : 'de la zona'} ya confiaron en nuestro servicio de cerrajería. Su tranquilidad es nuestra mejor garantía.
             </p>
         </div>
 

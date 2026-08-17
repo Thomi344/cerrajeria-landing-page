@@ -2,10 +2,10 @@
 // ---- Pagina de diseño de la seccion Preguntas Frecuentes ----
 
 interface Props {
-  region?: string;
+    region?: string;
+    nombreZona?: string;
 }
-const { region } = Astro.props;
-
+const { region, nombreZona = "tu zona" } = Astro.props;
 // --- Array de preguntas estratégicas para SEO ---
 const faqs = [
     {

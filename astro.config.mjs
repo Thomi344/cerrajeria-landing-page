@@ -7,13 +7,13 @@ import partytown from '@astrojs/partytown';
 // https://astro.build/config
 export default defineConfig({
   site: 'https://cerrajeriawally.com.ar', // <-- 2. Le decimos tu dominio oficial
-  trailingSlash: 'never', 
+  trailingSlash: 'always', 
   integrations: [
     sitemap(), 
     partytown({
       // <-- 3. Configuración CRÍTICA para que Tag Manager reciba los datos
       config: {
-        forward: ['dataLayer.push'],
+        forward: ['dataLayer.push','gtag'],
       },
     })
   ],
