@@ -1,9 +1,15 @@
 ---
 import Whatsapp from '../components/whatsapp.astro';
 
+interface Props {
+    title?: string;
+    description?: string;
+    nombreZona?: string;
+}
 const { 
     title = "Cerrajería Wally 24hs | Urgencias en GBA y CABA | ¡Llamá ahora!",
-    description = "Cerrajero a domicilio 24 horas. Apertura de puertas, autos y cajas fuertes. Rápidos, limpios y con garantía en el día."
+    description = "Cerrajero a domicilio 24 horas. Apertura de puertas, autos y cajas fuertes. Rápidos, limpios y con garantía en el día.",
+    nombreZona = "CABA y GBA"
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
@@ -100,7 +106,7 @@ const businessSchema = {
         <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5MVVGKX5"
         height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <slot /> 
-        <Whatsapp />
+        <Whatsapp nombreZona={nombreZona} />
     </body>
 </html>
 

@@ -47,5 +47,10 @@ export const zonas = [
         nombre: 'Caballito',
         region: 'Capital Federal',
         barrios: ['Primera Junta', 'Parque Rivadavia', 'Cid Campeador', 'Parque Centenario']
+    },
+    {
+        nombre: 'La Plata',
+        region: 'La Plata y Gran La Plata',
+        barrios: ['City Bell', 'Gonnet', 'Villa Elisa', 'Tolosa', 'Los Hornos', 'Casco Urbano', 'Ringuelet', 'Villa Elvira']
     }
 ];

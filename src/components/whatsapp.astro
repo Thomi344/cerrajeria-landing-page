@@ -1,7 +1,17 @@
 ---
-// ---- Diseño de botones de whatsapp y su accion ----
+// ====================================================
+// ====== Botón Flotante de WhatsApp con SEO Dinámico ==
+// ====================================================
+
+interface Props {
+  nombreZona?: string;
+}
+
+const { nombreZona = "CABA y GBA" } = Astro.props;
+
 const telefonoWhatsapp = "5491150974821";
-const mensaje = "Hola Cerrajería Wally, necesito un presupuesto/urgencia.";
+// <-------- Mensaje dinámico con el barrio -------->
+const mensaje = `Hola, entré a la web y necesito un cerrajero en ${nombreZona}`;
 const url = `https://wa.me/${telefonoWhatsapp}?text=${encodeURIComponent(mensaje)}`;
 ---
 
@@ -11,7 +21,7 @@ const url = `https://wa.me/${telefonoWhatsapp}?text=${encodeURIComponent(mensaje
         ¿Urgencia? ¡Escribinos!
     </span>
 
-    <!-- Agregamos el onclick con el evento de conversión -->
+    <!-- Enlace dinámico con evento de conversión de Google Ads -->
     <a 
         href={url} 
         target="_blank" 
