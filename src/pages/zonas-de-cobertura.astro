@@ -3,14 +3,8 @@
 import Layout from '../layouts/Layout.astro';
 import Header from '../sections/Header.astro';
 import Footer from '../sections/Footer.astro'; 
-import { zonas } from '../data/zonas.js';
-
-const limpiarParaUrl = (texto: string) => {
-    return String(texto).toLowerCase()
-        .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
-        .replace(/[^a-z0-9]+/g, '-')
-        .replace(/(^-|-$)+/g, '');
-};
+import { zonas } from '../data/zonas';
+import { urlZona } from '../utils/slug';
 
 const title = "Directorio de Zonas | Cerrajería Wally 24hs";
 const description = "Directorio completo de todas las zonas y barrios donde prestamos servicio de cerrajería de urgencia 24hs en Zona Sur y CABA.";
@@ -36,12 +30,12 @@ const description = "Directorio completo de todas las zonas y barrios donde pres
                     <div class="bg-fondo-card border border-borde rounded-2xl p-6 shadow-lg shadow-marca/5 hover:border-marca/50 transition-colors duration-300">
                         
                         <h2 class="text-xl font-bold text-white uppercase border-b border-borde pb-3 mb-4 flex items-center gap-2">
-                            <svg class="w-5 h-5 text-marca" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg aria-hidden="true" class="w-5 h-5 text-marca" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                             </svg>
                             {/* Link a la zona principal (ej: /cerrajero-zona-lomas-de-zamora/) */}
-                            <a href={`/cerrajero-zona-${limpiarParaUrl(zona.nombre)}/`} class="hover:text-marca transition-colors">
+                            <a href={urlZona(zona.nombre)} class="hover:text-marca transition-colors">
                                 {zona.nombre}
                             </a>
                         </h2>
@@ -53,7 +47,7 @@ const description = "Directorio completo de todas las zonas y barrios donde pres
                                     {zona.barrios.map(barrio => (
                                         <li>
                                             {/* Link a cada barrio individual (ej: /cerrajero-zona-banfield/) */}
-                                            <a href={`/cerrajero-zona-${limpiarParaUrl(barrio)}/`} class="text-slate-400 text-sm hover:text-white hover:underline transition-colors flex items-center gap-2 group">
+                                            <a href={urlZona(barrio)} class="text-slate-400 text-sm hover:text-white hover:underline transition-colors flex items-center gap-2 group">
                                                 <span class="w-1.5 h-1.5 rounded-full bg-borde group-hover:bg-marca transition-colors"></span>
                                                 Cerrajero en {barrio}
                                             </a>

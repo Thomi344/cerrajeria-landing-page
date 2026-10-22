@@ -25,7 +25,7 @@ if (variante === 'secundario') estilosFinales += ` ${estilosSecundario}`;
 if (variante === 'whatsapp') estilosFinales += ` ${estilosWhatsapp}`;
 ---
 
-<a href={href} class={estilosFinales}>
+<a href={href} target="_blank" rel="noopener noreferrer" class={estilosFinales}>
     <slot />
     {texto}
 </a>

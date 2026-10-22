@@ -1,8 +1,14 @@
 // ---- Informacion de zonas y barrios ----
 
-// src/data/zonas.js
+// src/data/zonas.ts
 
-export const zonas = [
+export interface Zona {
+    nombre: string;
+    region: string;
+    barrios: string[];
+}
+
+export const zonas: Zona[] = [
     {
         nombre: 'Lomas de Zamora',
         region: 'Zona Sur',

@@ -1,16 +1,36 @@
 ---
 import Whatsapp from '../components/whatsapp.astro';
+import ImageAutoHero from '../assets/images/AutoHero.webp';
+import { getImage } from 'astro:assets';
+import { zonas } from '../data/zonas';
+import { TELEFONO } from '../utils/contacto';
+import { PUBLIC_GTM_ID, PUBLIC_GOOGLE_SITE_VERIFICATION } from 'astro:env/client';
 
 interface Props {
     title?: string;
     description?: string;
     nombreZona?: string;
+    preloadHero?: boolean; // --- Solo las páginas con Hero precargan su imagen LCP ---
+    noindex?: boolean;
 }
+
 const { 
     title = "Cerrajería Wally 24hs | Urgencias en GBA y CABA | ¡Llamá ahora!",
     description = "Cerrajero a domicilio 24 horas. Apertura de puertas, autos y cajas fuertes. Rápidos, limpios y con garantía en el día.",
-    nombreZona = "CABA y GBA"
+    nombreZona = "CABA y GBA",
+    preloadHero = false,
+    noindex = false
 } = Astro.props;
+
+// --- Imagen del hero optimizada (mismos parámetros que en Hero.astro para reutilizar los archivos) ---
+const ImageAutoHeroPreload = preloadHero
+    ? await getImage({ 
+        src: ImageAutoHero, 
+        format: 'webp',
+        widths: [600, 900, 1500],
+        sizes: "(max-width: 600px) 600px, (max-width: 1200px) 900px, 1500px"
+    })
+    : null;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const ogImage = new URL('/SocialShare-1.jpg', Astro.site);
@@ -19,24 +39,20 @@ const businessSchema = {
     "@context": "https://schema.org",
     "@type": "Locksmith",
     "name": "Cerrajería Wally",
-    "image": `${Astro.site}/logo-icon.webp`,
+    "image": new URL('/logo-icon.webp', Astro.site),
     "@id": Astro.site,
     "url": Astro.site,
-    "telephone": "+5491150974821",
+    "telephone": TELEFONO,
     "priceRange": "$$",
     "address": {
         "@type": "PostalAddress",
         "addressLocality": "Buenos Aires",
         "addressCountry": "AR"
     },
-    "geo": {
-        "@type": "GeoCircle",
-        "itemOffered": {
-        "@type": "Service",
-        "name": "Cerrajería de Urgencia 24hs"
-        },
-        "address": "Zona Sur, CABA y alrededores" 
-    },
+    "areaServed": zonas.map((zona) => ({
+        "@type": "Place",
+        "name": zona.nombre
+    })),
     "openingHoursSpecification": {
         "@type": "OpeningHoursSpecification",
         "dayOfWeek": [
@@ -57,21 +73,24 @@ const businessSchema = {
         <!-- Hilo principal: Inicializamos la capa de datos para que los clicks funcionen -->
 
         <!-- 3. Google Tag Manager original (Para que Analytics no pierda datos) -->
-        <script is:inline>
+        <script is:inline define:vars={{ gtmId: PUBLIC_GTM_ID }}>
             (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
             new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
             j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-            })(window,document,'script','dataLayer','GTM-5MVVGKX5');
+            })(window,document,'script','dataLayer',gtmId);
         </script>
 
         <link rel="icon" type="image/webp" href="/logo-icon.webp" />
-        <link rel="preconnect" href="https://res.cloudinary.com" />      
+        <!-- Forzar precarga de la imagen LCP del Hero -->
+        {ImageAutoHeroPreload && (
+            <link rel="preload" as="image" imagesrcset={ImageAutoHeroPreload.srcSet.attribute} imagesizes={ImageAutoHeroPreload.attributes.sizes} fetchpriority="high" />
+        )}
 
         <title>{title}</title>
         <meta name="description" content={description} />
         <link rel="canonical" href={canonicalURL} />
-        <meta name="robots" content="index, follow" />
+        <meta name="robots" content={noindex ? "noindex, follow" : "index, follow"} />
 
         <meta property="og:type" content="website" />
         <meta property="og:title" content={title} />
@@ -83,17 +102,17 @@ const businessSchema = {
         <meta property="og:site_name" content="Cerrajería Wally" />
         <meta property="og:locale" content="es_AR" />
 
-        <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:url" content={canonicalURL} />
-        <meta property="twitter:title" content={title} />
-        <meta property="twitter:description" content={description} />
-        <meta property="twitter:image" content={ogImage} />
-        <meta name="google-site-verification" content="_olVUSz4V6CrwUiX6bEOeQ_nBeEOO6GtPS-OKi5hkXQ" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:url" content={canonicalURL} />
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:description" content={description} />
+        <meta name="twitter:image" content={ogImage} />
+        <meta name="google-site-verification" content={PUBLIC_GOOGLE_SITE_VERIFICATION} />
         
         <script type="application/ld+json" set:html={JSON.stringify(businessSchema)} />
     </head>
     <body class="bg-fondo-base text-slate-200 selection:bg-blue-500/30">
-        <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5MVVGKX5"
+        <noscript><iframe src={`https://www.googletagmanager.com/ns.html?id=${PUBLIC_GTM_ID}`}
         height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <slot /> 
         <Whatsapp nombreZona={nombreZona} />
@@ -114,12 +133,6 @@ const businessSchema = {
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
         text-rendering: optimizeLegibility;
-    }
-
-    /* Aseguramos que el carrusel no bloquee el scroll horizontal */
-    #carrusel-trabajos {
-        scrollbar-width: none;
-        -ms-overflow-style: none;
     }
 
     @theme {

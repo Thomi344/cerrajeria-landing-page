@@ -7,11 +7,6 @@ interface Props {
     nombreZona?: string;
 }
 const { region, nombreZona = "tu zona" } = Astro.props;
-
-// --- Título dinámico para SEO ---
-const tituloSeccion = region 
-    ? `Servicios de Cerrajería en ${region}` 
-    : "Servicios de Cerrajería Integral";
 ---
 
 <section class="py-20 md:py-25 bg-fondo-nav">
